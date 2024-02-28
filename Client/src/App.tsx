@@ -1,17 +1,30 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import { privateRoutes, publicRoutes } from "./Route";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   const [count, setCount] = useState(0);
-  async function googleSignIn() {
-    window.open("http://localhost:5000/auth/google", "_self");
-  }
+  const token = false;
   return (
     <div>
-      <h1>homepage</h1>
-      <button onClick={googleSignIn}>google sign in</button>
+      <Routes>
+        {token && (
+          <>
+            {privateRoutes.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={route.element}
+              />
+            ))}
+          </>
+        )}
+
+        {publicRoutes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.element} />
+        ))}
+      </Routes>
     </div>
   );
 }
