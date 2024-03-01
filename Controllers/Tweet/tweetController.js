@@ -150,6 +150,86 @@ const getTweetById = async (req, res) => {
   }
 };
 
+const likeTweetById = async (req, res) => {
+  try {
+    const tweetId = req.params.id;
+    const tweet = await Tweet.findOne({ _id: tweetId });
+
+    if (!tweet) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Tweet not found" });
+    }
+
+    tweet.like++;
+    const likedTweet = await tweet.save();
+
+    return res.status(200).json({ success: true, data: likedTweet });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false, message: "Error occured" });
+  }
+};
+
+const dislikeTweetById = async (req, res) => {
+  try {
+    const tweetId = req.params.id;
+    const tweet = await Tweet.findOne({ _id: tweetId });
+
+    if (!tweet) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Tweet not found" });
+    }
+
+    tweet.dislike++;
+    const dislikedTweet = await tweet.save();
+
+    return res.status(200).json({ success: true, data: dislikedTweet });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false, message: "Error occured" });
+  }
+};
+
+const getAllTweetsOfUser = async (req, res) => {
+  try {
+    const tweets = await Tweet.find({ user: req.user._id }).populate("user");
+    return res
+      .status(200)
+      .json({ success: true, data: tweets, total: tweets.length });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false, message: "Error occured" });
+  }
+};
+
+const updateTweetById = async (req, res) => {
+  try {
+    const tweetId = req.params.id;
+    let tweet = await Tweet.findOne({ _id: tweetId });
+
+    if (!tweet) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Tweet not found" });
+    }
+
+    const updatedTweet = await Tweet.findByIdAndUpdate(
+      { _id: tweetId, user: req.user._id },
+      req.body,
+      {
+        new: true,
+      }
+    );
+
+    return res.status(200).json({ success: true, data: updatedTweet });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false, message: "Error occured" });
+  }
+};
+
 module.exports = {
   postTweet,
   deleteTweetById,
@@ -158,4 +238,8 @@ module.exports = {
   getTweetById,
   deleteAllTweets,
   replyToTweet,
+  likeTweetById,
+  dislikeTweetById,
+  getAllTweetsOfUser,
+  updateTweetById,
 };

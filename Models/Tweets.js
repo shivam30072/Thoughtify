@@ -19,6 +19,14 @@ const TweetSchema = mongoose.Schema(
       ref: "Tweet",
       default: null,
     },
+    like: {
+      type: Number,
+      default: 0,
+    },
+    dislike: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
