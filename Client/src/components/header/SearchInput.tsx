@@ -17,7 +17,7 @@ const SearchInput = (props: Props) => {
   return (
     <Box
       p={"8px"}
-      display={"flex"}
+      display={{ xs: "none", md: "flex" }}
       justifyContent={"center"}
       alignItems={"center"}
       flex={0.5}

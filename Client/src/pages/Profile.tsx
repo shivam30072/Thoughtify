@@ -1,7 +1,13 @@
-import React from "react";
+import { Box, Container } from "@mui/material";
+import Sidebar from "../components/Sidebar/Sidebar";
+import SecondaryLayout from "../components/layouts/SecondaryLayout";
 
 const Profile = () => {
-  return <div>Profile</div>;
+  return (
+    <SecondaryLayout>
+      <Box>Profile</Box>
+    </SecondaryLayout>
+  );
 };
 
 export default Profile;

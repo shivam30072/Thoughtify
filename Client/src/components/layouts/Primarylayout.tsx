@@ -9,10 +9,10 @@ type Props = {
 const Primarylayout = ({ children }: Props) => {
   return (
     <Box>
-      <Container>
+      <Container sx={{ pl: "0px", pr: "0px" }}>
         <Header />
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </Container>
     </Box>
   );

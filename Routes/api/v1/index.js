@@ -5,8 +5,10 @@
 const router = require("express").Router();
 const userRoutes = require("./user");
 const tweetRoutes = require("./tweet");
+const notificationRoutes = require("./notification");
 
 router.use("/user", userRoutes);
 router.use("/tweet", tweetRoutes);
+router.use("/notification", notificationRoutes);
 
 module.exports = router;

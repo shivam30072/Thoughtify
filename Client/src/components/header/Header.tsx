@@ -1,30 +1,57 @@
-import { ArrowBack, Psychology, SettingsOutlined } from "@mui/icons-material";
+import {
+  AccountCircle,
+  Psychology,
+  SettingsOutlined,
+} from "@mui/icons-material";
 import { Box, Tooltip, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import SearchInput from "./SearchInput";
+import { useAppDispatch } from "../../hooks";
+import { activeFeed, setFeed } from "../../Redux/actions/ActiveFeedSlice";
+import { useSelector } from "react-redux";
+import IconStyling from "../IconStyling/IconStyling";
 
-type Props = {};
+const Header = () => {
+  const feed = useSelector(activeFeed);
 
-const Header = (props: Props) => {
-  const [feed, setFeed] = useState("");
+  const dispatch = useAppDispatch();
 
   const handleChangeFeed = (type: string) => {
     localStorage.setItem("feed", type);
-    setFeed(type);
+    dispatch(setFeed(type));
   };
 
   useEffect(() => {
     const feedType = localStorage.getItem("feed");
 
     if (feedType) {
-      setFeed(feedType);
+      dispatch(setFeed(feedType));
     } else {
-      setFeed("for you");
+      dispatch(setFeed("for you"));
     }
   }, []);
+
   return (
-    <Box display={"flex"} justifyContent={"space-between"}>
-      <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+    <Box display={"flex"} justifyContent={"space-between"} width={"100%"}>
+      {/* --------------------------SIDEBAR------------------------- */}
+
+      <Box
+        display={{ xs: "none", md: "flex" }}
+        justifyContent={"center"}
+        alignItems={"center"}
+        // bgcolor={"lightblue"}
+        px={{ xs: 0, md: 2 }}
+      >
+        <IconStyling Icon={Psychology} title="" />
+      </Box>
+
+      {/* --------------------------MAIN SECTION------------------------- */}
+
+      <Box
+        display={{ xs: "flex", md: "none" }}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
         <Box
           sx={{
             "&:hover": {
@@ -35,14 +62,14 @@ const Header = (props: Props) => {
             borderRadius: "50%",
           }}
         >
-          <Psychology sx={{ width: "32px", height: "32px" }} />
+          <AccountCircle sx={{ width: "32px", height: "32px" }} />
         </Box>
       </Box>
       <Box
-        ml={"16px"}
+        ml={{ xs: "none" }}
         display={"flex"}
         flex={1}
-        border={"1px solid #eff3f4"}
+        border={{ xs: "none", md: "1px solid #eff3f4" }}
         justifyContent={"space-around"}
         alignItems={"center"}
       >
@@ -52,6 +79,7 @@ const Header = (props: Props) => {
             display={"flex"}
             justifyContent={"center"}
             px={"24px"}
+            pb={"2px"}
             sx={{
               "&:hover": {
                 transition: "bgcolor 0.3s ease",
@@ -62,10 +90,11 @@ const Header = (props: Props) => {
             flex={1}
           >
             <Typography
-              borderBottom={feed === "for you" ? "3px solid #1d9bf0" : ""}
+              borderBottom={feed === "for you" ? "4px solid #1d9bf0" : ""}
               color={feed === "for you" ? "black" : "#536471"}
               fontWeight={"bolder"}
               py={"20px"}
+              fontFamily={'Montserrat", sans-serif'}
             >
               For you
             </Typography>
@@ -77,6 +106,7 @@ const Header = (props: Props) => {
             flex={1}
             justifyContent={"center"}
             px={"24px"}
+            pb={"2px"}
             sx={{
               "&:hover": {
                 transition: "bgcolor 0.3s ease",
@@ -87,7 +117,7 @@ const Header = (props: Props) => {
           >
             <Typography
               py={"20px"}
-              borderBottom={feed === "following" ? "3px solid #1d9bf0" : ""}
+              borderBottom={feed === "following" ? "4px solid #1d9bf0" : ""}
               color={feed === "following" ? "black" : "#536471"}
               fontWeight={"bolder"}
             >
@@ -96,7 +126,7 @@ const Header = (props: Props) => {
           </Box>
         </Box>
         <Box
-          display={"flex"}
+          display={{ xs: "none", md: "flex" }}
           p={"8px"}
           sx={{
             "&:hover": {
